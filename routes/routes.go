@@ -15,11 +15,11 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/cars/:id", getCar)
 	authenticated.PUT("/car/:id", updateCar)
 	authenticated.DELETE("/car/:id", deleteCar)
-	// authenticated.DELETE("/events/:id", deleteEvent)
-	// authenticated.POST("/events/:id/register", registerForEvent)
-	// authenticated.DELETE("/events/:id/register", cancelRegistration)
-	// server.GET("/events", getEvents)    // GET, POST, PUT, PATCH, DELETE
-	// server.GET("/events/:id", getEvent) // /events/1, /events/5
+	authenticated.POST("/rental/new", createRental)
+	authenticated.GET("/rentals", getRentals)
+	authenticated.GET("/rental/:id", getRental)
+	authenticated.PUT("/rental/:id", updateRental)
+	authenticated.DELETE("/rental/:id", deleteRental)
 
 	server.POST("/signup", signup)
 	server.POST("/login", login)

@@ -48,7 +48,7 @@ func getCar(context *gin.Context) {
 	carId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	userId := context.GetUint("UserId")
 	if err!= nil {
-		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse event id. Try again later."})
+		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse car id. Try again later."})
 		return
 	}
 	car, err := models.FindCarById(uint(carId))
@@ -66,7 +66,7 @@ func getCar(context *gin.Context) {
 func updateCar(context *gin.Context) {
 	carId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err!= nil {
-		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse event id. Try again later."})
+		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse car id. Try again later."})
 		return
 	}
 	userId := context.GetUint("UserId")
@@ -89,15 +89,15 @@ func updateCar(context *gin.Context) {
 	updateCar.ID = uint(carId)
 	err = updateCar.UpdateCar()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"msg": "Could not update the event."})
+		context.JSON(http.StatusInternalServerError, gin.H{"msg": "Could not update the car."})
 	}
-	context.JSON(http.StatusOK, gin.H{"msg": "Event updated successfully."})
+	context.JSON(http.StatusOK, gin.H{"msg": "car updated successfully."})
 }
 
 func deleteCar(context *gin.Context) {
 	carId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err!= nil {
-		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse event id. Try again later."})
+		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse car id. Try again later."})
 		return
 	}
 	userId := context.GetUint("UserId")

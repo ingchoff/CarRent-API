@@ -46,14 +46,14 @@ type Car struct {
 
 // Rental represents the rental of a Car by a User.
 type Rental struct {
-	ID         uint       `gorm:"primaryKey"`
-	RentalDate time.Time
-	ReturnDate *time.Time
-	TotalCost  *float64
-	UserID uint
-	CarID  uint
-	User   User    `gorm:"foreignKey:UserID"`
-	Car    Car     `gorm:"foreignKey:CarID"`
+	ID         	uint     		`gorm:"primaryKey"`
+	RentalDate 	time.Time
+	ReturnDate 	*time.Time
+	TotalCost  	*float64
+	UserID			uint
+	CarID  			uint
+	User   			User    		`gorm:"foreignKey:UserID"`
+	Car    			Car     		`gorm:"foreignKey:CarID"`
 }
 
 // Inspection represents an inspection of a rented Car.

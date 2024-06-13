@@ -15,7 +15,6 @@ func Authenticate(context *gin.Context) {
 		return
 	}
 
-	println(token)
 	userId, err := utils.VerifyToken(token)
 
 	if err != nil {

@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"example.com/car-rental/db"
 )
 
@@ -15,15 +13,6 @@ type Car struct {
 	DailyRate float64	`binding:"required"`
 	Available bool
 	UserID		uint
-}
-
-type Rental struct {
-	ID         uint `gorm:"primaryKey"`
-	RentalDate time.Time
-	ReturnDate *time.Time
-	TotalCost  *float64
-	UserID     uint
-	User       User `gorm:"foreignKey:UserID"`
 }
 
 func (c *Car) Save() error {
