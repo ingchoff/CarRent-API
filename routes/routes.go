@@ -20,6 +20,11 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/rental/:id", getRental)
 	authenticated.PUT("/rental/:id", updateRental)
 	authenticated.DELETE("/rental/:id", deleteRental)
+	authenticated.POST("/inspection/new", createInspection)
+	authenticated.GET("/inspections/:cid", getInspections)
+	// authenticated.GET("/inspection/:id", getInspection)
+	authenticated.PUT("/inspection/:id", updateInspection)
+	authenticated.DELETE("/inspection/:id", deleteInspection)
 
 	server.POST("/signup", signup)
 	server.POST("/login", login)
