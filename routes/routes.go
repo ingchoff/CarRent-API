@@ -7,7 +7,7 @@ import (
 
 func RegisterRoutes(server *gin.Engine) {
 	authenticated := server.Group("/")
-	authenticated.Use(middlewares.Authenticate)
+	authenticated.Use(middlewares.Authenticate, middlewares.CORSMiddleware())
 	authenticated.GET("/user", getUser)
 	// authenticated.POST("/user/refreshtoken")
 	authenticated.POST("/car/new", createCar)
@@ -26,6 +26,8 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.PUT("/inspection/:id", updateInspection)
 	authenticated.DELETE("/inspection/:id", deleteInspection)
 
-	server.POST("/signup", signup)
-	server.POST("/login", login)
+	auth := server.Group("/auth")
+	auth.Use(middlewares.CORSMiddleware())
+	auth.POST("/signup", signup)
+	auth.POST("/login", login)
 }
