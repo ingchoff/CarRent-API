@@ -45,7 +45,7 @@ func (u *User) Save() (uint, error) {
 
 func GetUserById(id uint) (User, error) {
 	var user User
-	result := db.DB.Table("users").Select([]string{"id", "FirstName", "LastName", "Email", "Phone", "Role", "CreatedAt"}).Where("id = ?", id).Find(&user)
+	result := db.DB.Table("users").Select([]string{"id", "FirstName", "LastName", "Email", "Phone", "Role"}).Where("id = ?", id).Find(&user)
 	if result.Error != nil {
 		return user, result.Error
 	}
@@ -86,4 +86,17 @@ func AddRefreshTokenToWhitelist(user User, token string) error {
 		}
 	}
 	return err
+}
+
+func GetUserByToken(token string) (User, error) {
+	var obj RefreshToken
+	query := db.DB.Where("token = ? AND Revorked = ?", token, false).First(&obj)
+	if query.Error != nil {
+		return User{}, query.Error
+	}
+	user, err := GetUserById(obj.UserID)
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
 }

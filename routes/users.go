@@ -57,3 +57,13 @@ func getUser(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"user": user})
 }
+
+func getUserByToken(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	user, err := models.GetUserByToken(token)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not parse request user data."})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"user": user})
+}

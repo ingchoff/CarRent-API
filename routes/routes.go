@@ -9,6 +9,7 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated := server.Group("/")
 	authenticated.Use(middlewares.Authenticate, middlewares.CORSMiddleware())
 	authenticated.GET("/user", getUser)
+	authenticated.GET("/user/token", getUserByToken)
 	// authenticated.POST("/user/refreshtoken")
 	authenticated.POST("/car/new", createCar)
 	authenticated.GET("/cars", getCars)

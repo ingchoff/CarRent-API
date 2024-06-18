@@ -12,6 +12,6 @@ func main() {
 	server := gin.Default()
 	routes.RegisterRoutes(server)
 	server.Use(middlewares.CORSMiddleware())
-	server.Run(":8080")
+	server.Run(":5000")
 }
 

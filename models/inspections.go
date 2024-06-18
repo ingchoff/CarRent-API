@@ -16,10 +16,6 @@ type Inspection struct {
 	CarID             uint				`binding:"required"`
 }
 
-type CarIdGetRequestBody struct {
-	carId		uint	`binding:"required"`
-}
-
 func (i *Inspection) Save() error {
 	result := db.DB.Create(&i)
 	if result.Error != nil {
