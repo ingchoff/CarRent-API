@@ -10,7 +10,6 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.Use(middlewares.Authenticate, middlewares.CORSMiddleware())
 	authenticated.GET("/user", getUser)
 	authenticated.GET("/user/token", getUserByToken)
-	// authenticated.POST("/user/refreshtoken")
 	authenticated.POST("/car/new", createCar)
 	authenticated.GET("/cars", getCars)
 	authenticated.GET("/cars/:id", getCar)
@@ -31,4 +30,5 @@ func RegisterRoutes(server *gin.Engine) {
 	auth.Use(middlewares.CORSMiddleware())
 	auth.POST("/signup", signup)
 	auth.POST("/login", login)
+	auth.POST("/revorktoken", revokeToken)
 }

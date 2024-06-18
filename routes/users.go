@@ -67,3 +67,13 @@ func getUserByToken(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"user": user})
 }
+
+func revokeToken(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	err := models.RevorkToken(token)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not revorked token."})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"msg": "revorked token"})
+}

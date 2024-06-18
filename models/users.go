@@ -88,6 +88,14 @@ func AddRefreshTokenToWhitelist(user User, token string) error {
 	return err
 }
 
+func RevorkToken(token string) error {
+	query := db.DB.Model(&RefreshToken{}).Where("token = ?", token).Update("Revorked", true)
+	if query.Error != nil {
+		return query.Error
+	}
+	return nil
+}
+
 func GetUserByToken(token string) (User, error) {
 	var obj RefreshToken
 	query := db.DB.Where("token = ? AND Revorked = ?", token, false).First(&obj)
