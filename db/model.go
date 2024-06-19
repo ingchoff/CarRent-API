@@ -37,6 +37,8 @@ type Car struct {
 	Make      string
 	Year      int
 	Color     string
+	Gear			string
+	Image			string
 	DailyRate float64
 	Available bool					`gorm:"default:false"`
 	UserID		uint

@@ -10,7 +10,9 @@ type Car struct {
 	Make      string	`binding:"required"`
 	Year      int			`binding:"required"`
 	Color     string	`binding:"required"`
+	Gear			string	`binding:"required"`
 	DailyRate float64	`binding:"required"`
+	Image			string
 	Available bool
 	UserID		uint
 }
