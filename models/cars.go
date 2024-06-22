@@ -6,13 +6,18 @@ import (
 
 type Car struct {
 	ID        uint
-	Model     string	`binding:"required"`
-	Make      string	`binding:"required"`
-	Year      int			`binding:"required"`
-	Color     string	`binding:"required"`
-	Gear			string	`binding:"required"`
-	DailyRate float64	`binding:"required"`
-	Image			string
+	Model     string		`binding:"required"`
+	SubModel	string		`binding:"required"`
+	Make      string		`binding:"required"`
+	Year      int				`binding:"required"`
+	Color     string		`binding:"required"`
+	Gear			string		`binding:"required"`
+	Fuel			string		`binding:"required"`
+	Engine		string		`binding:"required"`
+	Image			string		`binding:"required"`
+	DailyRate float64		`binding:"required"`
+	License		string		`binding:"required"`
+	Door			int				`binding:"required"`
 	Available bool
 	UserID		uint
 }
@@ -58,3 +63,7 @@ func DeleteCarById(cid uint) (error) {
 	}
 	return nil
 }
+
+// func FindCarByCondition(condition string) (Car, error) {
+// 	result := db.DB.Where(`${c}`)
+// }

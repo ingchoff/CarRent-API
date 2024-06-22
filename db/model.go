@@ -34,16 +34,24 @@ type RefreshToken struct {
 type Car struct {
 	ID        uint      		`gorm:"primaryKey"`
 	Model     string
+	SubModel	string
 	Make      string
 	Year      int
 	Color     string
 	Gear			string
+	Fuel			string
+	Engine		string
 	Image			string
 	DailyRate float64
+	License		string
+	CarName		string
+	Door			int
 	Available bool					`gorm:"default:false"`
 	UserID		uint
 	User			User					`gorm:"foreignKey:UserID"`
 	Rentals   []Rental			`gorm:"foreignKey:CarID"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // Rental represents the rental of a Car by a User.
@@ -51,11 +59,16 @@ type Rental struct {
 	ID         	uint     		`gorm:"primaryKey"`
 	RentalDate 	time.Time
 	ReturnDate 	*time.Time
+	StartMile		int
+	EndMile			*int
+	Note				string
 	TotalCost  	*float64
 	UserID			uint
 	CarID  			uint
 	User   			User    		`gorm:"foreignKey:UserID"`
 	Car    			Car     		`gorm:"foreignKey:CarID"`
+	CreatedAt 	time.Time
+	UpdatedAt 	time.Time
 }
 
 // Inspection represents an inspection of a rented Car.
@@ -63,11 +76,16 @@ type Inspection struct {
 	ID                uint      `gorm:"primaryKey"`
 	InspectionDate    time.Time
 	Mileage           int
-	FuelLevel         float64
-	DamageDescription string
-	Notes             string
+	Amount						float64
+	Type							string
+	Description 			string
+	Name             	string
 	CarID          		uint
-	Car            		Car 		`gorm:"foreignKey:CarID"`
+	Car            		Car 			`gorm:"foreignKey:CarID"`
+	User   						User    	`gorm:"foreignKey:UserID"`
+	UserID						uint
+	CreatedAt 				time.Time
+	UpdatedAt 				time.Time
 }
 
 var DB *gorm.DB
