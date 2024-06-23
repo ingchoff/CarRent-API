@@ -12,6 +12,7 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/user/token", getUserByToken)
 	authenticated.POST("/car/new", createCar)
 	authenticated.GET("/cars", getCars)
+	authenticated.GET("/cars/models-data", getListModelsCar)
 	authenticated.GET("/cars/:id", getCar)
 	authenticated.PUT("/car/:id", updateCar)
 	authenticated.DELETE("/car/:id", deleteCar)

@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"example.com/car-rental/db"
 )
 
@@ -20,6 +22,20 @@ type Car struct {
 	Door			int				`binding:"required"`
 	Available bool
 	UserID		uint
+}
+
+type ModelsData struct {
+	Make	string
+	Model	string
+}
+
+// type ObjModels struct {
+// 	Make	[]string
+// 	Model	[]string
+// }
+
+type ObjModels struct {
+	Make	map[string][]string
 }
 
 func (c *Car) Save() error {
@@ -62,6 +78,21 @@ func DeleteCarById(cid uint) (error) {
 		return result.Error
 	}
 	return nil
+}
+
+func Distinct(uid uint) (ObjModels, error) {
+	var results []ModelsData
+	objModels := ObjModels{Make: make(map[string][]string)}
+	result := db.DB.Table("cars").Where("user_id = ?", uid).Distinct("Make", "Model").Order("Make, Model asc").Find(&results)
+	if result.Error != nil {
+		return objModels, result.Error
+	}
+	for _, value := range results {
+		objModels.Make[value.Make] = append(objModels.Make[value.Make], value.Model)
+		fmt.Println(objModels)
+		// objModels.Make = append(objModels.Make, map[string][]string{value.Make: {value.Model}})
+	}
+	return objModels, nil
 }
 
 // func FindCarByCondition(condition string) (Car, error) {
