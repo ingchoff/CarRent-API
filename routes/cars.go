@@ -120,7 +120,7 @@ func deleteCar(context *gin.Context) {
 
 func getListModelsCar(context *gin.Context) {
 	userId := context.GetUint("UserId")
-	listModels, err := models.Distinct(userId)
+	listModels, err := models.DistinctModelNames(userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get models data."})
 		return
