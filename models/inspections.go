@@ -10,10 +10,14 @@ type Inspection struct {
 	ID                uint
 	InspectionDate    time.Time		`binding:"required"`
 	Mileage           int					`binding:"required"`
-	FuelLevel         float64
-	DamageDescription string
-	Notes             string
-	CarID             uint				`binding:"required"`
+	Amount						float64			`binding:"required"`
+	Type							string			`binding:"required"`
+	Description 			string			`binding:"required"`
+	Name             	string			`binding:"required"`
+	CarID          		uint				`binding:"required"`
+	UserID						uint
+	CreatedAt 				time.Time
+	UpdatedAt 				time.Time
 }
 
 func (i *Inspection) Save() error {

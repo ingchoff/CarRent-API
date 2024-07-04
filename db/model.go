@@ -80,10 +80,10 @@ type Inspection struct {
 	Type							string
 	Description 			string
 	Name             	string
+	UserID						uint
 	CarID          		uint
 	Car            		Car 			`gorm:"foreignKey:CarID"`
 	User   						User    	`gorm:"foreignKey:UserID"`
-	UserID						uint
 	CreatedAt 				time.Time
 	UpdatedAt 				time.Time
 }

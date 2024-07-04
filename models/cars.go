@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"example.com/car-rental/db"
 )
 
@@ -20,6 +22,8 @@ type Car struct {
 	Door			int				`binding:"required"`
 	Available bool
 	UserID		uint
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type ModelsData struct {

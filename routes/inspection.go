@@ -25,6 +25,7 @@ func createInspection(context *gin.Context) {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to add new inspection."})
 		return
 	}
+	ins.UserID = userId
 	err = ins.Save()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save data."})
