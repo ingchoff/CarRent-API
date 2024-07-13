@@ -77,7 +77,7 @@ type Inspection struct {
 	InspectionDate    time.Time
 	Mileage           int
 	Amount						float64
-	Type							string
+	Service						string
 	Description 			string
 	Name             	string
 	UserID						uint

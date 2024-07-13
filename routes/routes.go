@@ -23,7 +23,8 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.DELETE("/rental/:id", deleteRental)
 	authenticated.POST("/inspection/new", createInspection)
 	authenticated.GET("/inspections/:cid", getInspections)
-	// authenticated.GET("/inspection/:id", getInspection)
+	authenticated.GET("/inspection/search", getInspectionsByType)
+	authenticated.GET("/inspection/summary", summaryInspections)
 	authenticated.PUT("/inspection/:id", updateInspection)
 	authenticated.DELETE("/inspection/:id", deleteInspection)
 

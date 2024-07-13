@@ -48,8 +48,34 @@ func getInspections(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"data": inspections})
 }
 
-// func getInspection(context *gin.Context) {
-// }
+func getInspectionsByType(context *gin.Context) {
+	// service := context.DefaultQuery("service", "")
+	services := context.Request.URL.Query()
+	if (!services.Has("carid") || !services.Has("service")) {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Query Params Required!."})
+	} else {
+		inspections, err := models.FindInsByType(services.Get("service"), services.Get("carid"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch request inspections data."})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{"data": inspections})
+	}
+}
+
+func summaryInspections(context *gin.Context) {
+	service := context.Request.URL.Query()
+	if (!service.Has("carid")) {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "query params carid required!."})
+	} else {
+		sum, err := models.LatestInsByCar(service.Get("carid"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch request inspections data."})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{"data": sum})
+	}
+}
 
 func updateInspection(context *gin.Context) {
 	inspectionId, err := strconv.ParseInt(context.Param("id"), 10, 64)
