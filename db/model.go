@@ -1,8 +1,12 @@
 package db
 
 import (
+	"fmt"
+	"log"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -80,6 +84,7 @@ type Inspection struct {
 	Service						string
 	Description 			string
 	Name             	string
+	Duration					int
 	UserID						uint
 	CarID          		uint
 	Car            		Car 			`gorm:"foreignKey:CarID"`
@@ -91,7 +96,18 @@ type Inspection struct {
 var DB *gorm.DB
 
 func InitDb() {
-	dsn := "Ing:Cr@753951@tcp(127.0.0.1:3306)/car_rent?charset=utf8mb4&parseTime=True&loc=Local"
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+    log.Fatal("Error loading .env file")
+  }
+	dbHost := os.Getenv("DB_HOST")
+	dbUser := os.Getenv("DB_USER")
+	dbPass := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+	dbPort := os.Getenv("DB_PORT")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
+	fmt.Println(dsn)
+	// dsn := "Ing:Cr@753951@tcp(192.168.0.195:3306)/car_rent?charset=utf8mb4&parseTime=True&loc=Local"
   var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

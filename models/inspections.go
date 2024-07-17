@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"math"
 	"time"
 
 	"example.com/car-rental/db"
@@ -15,6 +16,7 @@ type Inspection struct {
 	Service						string			`binding:"required"`
 	Description 			string			`binding:"required"`
 	Name             	string			`binding:"required"`
+	Duration					float64
 	CarID          		uint				`binding:"required"`
 	UserID						uint
 	CreatedAt 				time.Time
@@ -25,6 +27,7 @@ type LatestInspection struct {
 	InspectionDate		time.Time
 	Amount						float64
 	Mileage						int
+	Duration					float64
 }
 
 func (i *Inspection) Save() error {
@@ -88,6 +91,11 @@ func LatestInsByCar(cid string) (map[string]LatestInspection, error) {
 		if result.Error != nil {
 			return nil, result.Error
 		}
+		now := time.Now()
+		elapsed := now.Sub(inspection.InspectionDate).Hours()/24
+		duration := inspection.Duration*365
+		percent := (elapsed/float64(duration))*100
+		inspection.Duration = math.Round(percent*10) / 10
 		inspections[service] = inspection
 	}
 	return inspections, nil

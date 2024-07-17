@@ -90,6 +90,7 @@ func updateCar(context *gin.Context) {
 	err = updateCar.UpdateCar()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"msg": "Could not update the car."})
+		return
 	}
 	context.JSON(http.StatusOK, gin.H{"msg": "car updated successfully."})
 }
