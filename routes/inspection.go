@@ -53,6 +53,7 @@ func getInspectionsByType(context *gin.Context) {
 	services := context.Request.URL.Query()
 	if (!services.Has("carid") || !services.Has("service")) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Query Params Required!."})
+		return
 	} else {
 		inspections, err := models.FindInsByType(services.Get("service"), services.Get("carid"))
 		if err != nil {

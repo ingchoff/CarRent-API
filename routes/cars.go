@@ -128,3 +128,26 @@ func getListModelsCar(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"data": listModels})
 }
+
+func searchCar(context *gin.Context) {
+	params := context.Request.URL.Query()
+	userId := context.GetUint("UserId")
+	if (params.Has("make")) {
+		car, err := models.FindCarByCondition(userId, "make", params.Get("make"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get car data."})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{"data": car})
+	} else if (params.Has("model")) {
+		car, err := models.FindCarByCondition(userId, "model", params.Get("model"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get car data."})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{"data": car})
+	} else {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Query Params Required!."})
+		return
+	}
+}

@@ -14,6 +14,7 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/cars", getCars)
 	authenticated.GET("/cars/models-data", getListModelsCar)
 	authenticated.GET("/cars/:id", getCar)
+	authenticated.GET("/cars/search", searchCar)
 	authenticated.PUT("/car/:id", updateCar)
 	authenticated.DELETE("/car/:id", deleteCar)
 	authenticated.POST("/rental/new", createRental)

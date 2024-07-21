@@ -93,6 +93,17 @@ type Inspection struct {
 	UpdatedAt 				time.Time
 }
 
+type Service struct {
+	ID					uint				`gorm:"primaryKey"`
+	Name				string
+	Duration		int
+	Mileage			int
+	CarID				uint
+	Car					Car					`gorm:"foreignKey:CarID"`
+	CreatedAt 	time.Time
+	UpdatedAt 	time.Time
+}
+
 var DB *gorm.DB
 
 func InitDb() {
@@ -106,8 +117,6 @@ func InitDb() {
 	dbName := os.Getenv("DB_NAME")
 	dbPort := os.Getenv("DB_PORT")
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
-	fmt.Println(dsn)
-	// dsn := "Ing:Cr@753951@tcp(192.168.0.195:3306)/car_rent?charset=utf8mb4&parseTime=True&loc=Local"
   var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"example.com/car-rental/db"
@@ -97,6 +98,12 @@ func DistinctModelNames(uid uint) (ObjMakes, error) {
 	return objMakes, nil
 }
 
-// func FindCarByCondition(condition string) (Car, error) {
-// 	result := db.DB.Where(`${c}`)
-// }
+func FindCarByCondition(uid uint, condition string, value string) ([]Car, error) {
+	var car []Car
+	where := fmt.Sprintf("user_id = ? AND %s = ?", condition)
+	result := db.DB.Where(where, uid, value).Find(&car)
+	if result.Error != nil {
+		return car, result.Error
+	}
+	return car, nil
+}
