@@ -99,7 +99,9 @@ type Service struct {
 	Duration		int
 	Mileage			int
 	CarID				uint
+	UserID			uint
 	Car					Car					`gorm:"foreignKey:CarID"`
+	User				User				`gorm:"foreignKey:UserID"`
 	CreatedAt 	time.Time
 	UpdatedAt 	time.Time
 }
@@ -122,5 +124,5 @@ func InitDb() {
 	if err != nil {
     panic("failed to connect database")
   }
-	DB.AutoMigrate(&User{}, &Car{}, &Rental{}, &Inspection{}, &RefreshToken{})
+	DB.AutoMigrate(&User{}, &Car{}, &Rental{}, &Inspection{}, &RefreshToken{}, &Service{})
 }

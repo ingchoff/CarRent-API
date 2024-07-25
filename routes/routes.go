@@ -28,6 +28,7 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/inspection/summary", summaryInspections)
 	authenticated.PUT("/inspection/:id", updateInspection)
 	authenticated.DELETE("/inspection/:id", deleteInspection)
+	authenticated.POST("/service/new", createService)
 
 	auth := server.Group("/auth")
 	auth.Use(middlewares.CORSMiddleware())
