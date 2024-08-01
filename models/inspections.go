@@ -16,7 +16,8 @@ type Inspection struct {
 	Service						string			`binding:"required"`
 	Description 			string			`binding:"required"`
 	Name             	string			`binding:"required"`
-	Duration					float64
+	PercentDuration		float64
+	PercentMileage		float64
 	CarID          		uint				`binding:"required"`
 	UserID						uint
 	CreatedAt 				time.Time
@@ -25,9 +26,9 @@ type Inspection struct {
 
 type LatestInspection struct {
 	InspectionDate		time.Time
-	Amount						float64
 	Mileage						int
-	Duration					float64
+	PercentDuration		float64
+	PercentMileage		float64
 }
 
 func (i *Inspection) Save() error {
@@ -86,17 +87,26 @@ func LatestInsByCar(cid string) (map[string]LatestInspection, error) {
 		return nil, errors.New("not found")
 	}
 	for _, service := range distincServices {
-		var inspection LatestInspection
-		result := db.DB.Table("inspections").Where("service = ?", service).Order("inspection_date desc").Find(&inspection)
-		if result.Error != nil {
+		var serviceInfo Service
+		var latestInspection LatestInspection
+		services := db.DB.Table("services").Where("name = ? AND car_id = ?", service, cid).Order("name asc").Find(&serviceInfo)
+		if services.Error != nil {
+			return nil, result.Error
+		}
+		inspection := db.DB.Table("inspections").Where("service = ? AND car_id = ?", service, cid).Order("inspection_date desc").Find(&latestInspection)
+		if inspection.Error != nil {
 			return nil, result.Error
 		}
 		now := time.Now()
-		elapsed := now.Sub(inspection.InspectionDate).Hours()/24
-		duration := inspection.Duration*365
-		percent := (elapsed/float64(duration))*100
-		inspection.Duration = math.Round(percent*10) / 10
-		inspections[service] = inspection
+		elapsed := now.Sub(latestInspection.InspectionDate).Hours()/24
+		duration := serviceInfo.Duration*365
+		mileage := serviceInfo.Mileage
+		elapsedMileage := 255482-latestInspection.Mileage
+		percentMileage := (float64(elapsedMileage)/float64(mileage))
+		percentDuration := (elapsed/float64(duration))*100
+		latestInspection.PercentDuration = math.Round(percentDuration*10) / 10
+		latestInspection.PercentMileage = math.Round(percentMileage*100)
+		inspections[service] = latestInspection
 	}
 	return inspections, nil
 }

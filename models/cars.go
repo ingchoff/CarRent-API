@@ -32,9 +32,9 @@ type ModelsData struct {
 	Model	string
 }
 
-type objModels struct {
-	Model	map[string][]string
-}
+// type objModels struct {
+// 	Model	map[string][]string
+// }
 
 type ObjMakes struct {
 	Make	map[string][]string
@@ -47,6 +47,32 @@ func (c *Car) Save() error {
 	if result.Error != nil {
 		return result.Error
 	}
+	// create default services
+	var services map[string]Service
+	var listServices []Service
+	services = make(map[string]Service)
+	services["1"] = Service{Name: "น้ำมันเครื่อง", Duration: 1, Mileage: 9000}
+	services["2"] = Service{Name: "น้ำมันเกียร์", Duration: 2, Mileage: 40000}
+	services["3"] = Service{Name: "น้ำมันเบรก", Duration: 2, Mileage: 40000}
+	services["4"] = Service{Name: "กรองอากาศ", Duration: 1, Mileage: 20000}
+	services["5"] = Service{Name: "กรองแอร์", Duration: 1, Mileage: 20000}
+	services["6"] = Service{Name: "ปัดน้ำฝน", Duration: 2, Mileage: 40000}
+	services["7"] = Service{Name: "แบตเตอรี่", Duration: 2, Mileage: 60000}
+	services["8"] = Service{Name: "หัวเทียน", Duration: 2, Mileage: 40000}
+	services["9"] = Service{Name: "ผ้าเบรกหน้า", Duration: 5, Mileage: 50000}
+	services["10"] = Service{Name: "ผ้าเบรกหลัง", Duration: 5, Mileage: 50000}
+	services["11"] = Service{Name: "โช๊ค", Duration: 2, Mileage: 60000}
+	services["12"] = Service{Name: "สายพราน", Duration: 4, Mileage: 50000}
+	services["13"] = Service{Name: "ยาง", Duration: 5, Mileage: 50000}
+	for _, v := range services {
+    v.UserID = c.UserID
+		v.CarID = c.ID
+    listServices = append(listServices, v)
+  }
+	createServices := CreateServices(listServices)
+	if createServices != nil {
+    return result.Error
+  }
 	return nil
 }
 

@@ -84,7 +84,8 @@ type Inspection struct {
 	Service						string
 	Description 			string
 	Name             	string
-	Duration					int
+	PercentDuration		float64
+	PercentMileage		float64
 	UserID						uint
 	CarID          		uint
 	Car            		Car 			`gorm:"foreignKey:CarID"`

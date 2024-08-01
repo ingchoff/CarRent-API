@@ -17,7 +17,7 @@ type Service struct {
 	UpdatedAt time.Time
 }
 
-func Save(listServices []Service) error {
+func CreateServices(listServices []Service) error {
 	result := db.DB.Model(&Service{}).Create(listServices)
 	if result.Error != nil {
 		return result.Error

@@ -29,7 +29,7 @@ func createService(context *gin.Context) {
     v.UserID = userId
     listServices = append(listServices, v)
   }
-  err = models.Save(listServices)
+  err = models.CreateServices(listServices)
   if err != nil {
     context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save data."})
     return
