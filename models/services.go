@@ -25,20 +25,23 @@ func CreateServices(listServices []Service) error {
 	return nil
 }
 
-func FindAllServices(carId uint) ([]Service, error) {
+func FindAllServices(carId uint, uid uint) ([]Service, error) {
 	var services []Service
-	result := db.DB.Where(&Service{CarID: carId}).Order("name asc").Find(&services)
+	result := db.DB.Where(&Service{CarID: carId, UserID: uid}).Order("name asc").Find(&services)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return services, nil
 }
 
-func (s *Service) UpdateService() error {
-	result := db.DB.Save(&s)
-	if result.Error != nil {
-		return result.Error
+func UpdateService(listServices []Service) error {
+	for _, v := range listServices {
+		result := db.DB.Save(v)
+		if result.Error != nil {
+			return result.Error
+		}
 	}
+
 	return nil
 }
 
