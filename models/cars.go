@@ -21,6 +21,9 @@ type Car struct {
 	DailyRate float64		`binding:"required"`
 	License		string		`binding:"required"`
 	Door			int				`binding:"required"`
+	CarName		string		`binding:"required"`
+	LatestMileage		int
+	LatestInspectionDate			time.Time	`binding:"required"`
 	Available bool
 	UserID		uint
 	CreatedAt time.Time

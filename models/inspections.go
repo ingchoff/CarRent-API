@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"math"
+	"strconv"
 	"time"
 
 	"example.com/car-rental/db"
@@ -11,8 +12,8 @@ import (
 type Inspection struct {
 	ID                uint
 	InspectionDate    time.Time		`binding:"required"`
-	Mileage           int					`binding:"required"`
-	Amount						float64			`binding:"required"`
+	Mileage           int
+	Amount						float64
 	Service						string			`binding:"required"`
 	Description 			string			`binding:"required"`
 	Name             	string			`binding:"required"`
@@ -26,8 +27,8 @@ type Inspection struct {
 
 type LatestInspection struct {
 	InspectionDate		time.Time
-	Mileage						int
 	PercentDuration		float64
+	Mileage						int
 	PercentMileage		float64
 }
 
@@ -86,6 +87,11 @@ func LatestInsByCar(cid string) (map[string]LatestInspection, error) {
 	if (len(distincServices) == 0) {
 		return nil, errors.New("not found")
 	}
+	cidsd, _ := strconv.ParseInt(cid, 10, 32)
+	car, err := FindCarById(uint(cidsd))
+	if err != nil {
+		return nil, err
+	}
 	for _, service := range distincServices {
 		var serviceInfo Service
 		var latestInspection LatestInspection
@@ -101,7 +107,13 @@ func LatestInsByCar(cid string) (map[string]LatestInspection, error) {
 		elapsed := now.Sub(latestInspection.InspectionDate).Hours()/24
 		duration := serviceInfo.Duration*365
 		mileage := serviceInfo.Mileage
-		elapsedMileage := 255482-latestInspection.Mileage
+		var latestMileage int
+		if (car.LatestMileage == 0) {
+			latestMileage = latestInspection.Mileage
+		} else {
+			latestMileage = car.LatestMileage
+		}
+		elapsedMileage := latestMileage-latestInspection.Mileage
 		percentMileage := (float64(elapsedMileage)/float64(mileage))
 		percentDuration := (elapsed/float64(duration))*100
 		latestInspection.PercentDuration = math.Round(percentDuration*10) / 10
