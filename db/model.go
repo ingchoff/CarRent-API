@@ -121,7 +121,7 @@ type Service struct {
 
 var DB *gorm.DB
 
-func InitDb() {
+func InitDb() *gorm.DB {
 	errEnv := godotenv.Load()
 	if errEnv != nil {
 		log.Fatal("Error loading .env file")
@@ -138,4 +138,5 @@ func InitDb() {
 		panic("failed to connect database")
 	}
 	DB.AutoMigrate(&User{}, &Car{}, &Rental{}, &Inspection{}, &RefreshToken{}, &Service{})
+	return DB
 }
