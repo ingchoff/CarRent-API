@@ -14,7 +14,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	router := gin.New()
 	router.Use(middlewares.CORSMiddleware())
 	routes.RegisterRoutes(router)
-	router.Run(":5000")
 	// Call db.InitDb() to ensure the database is connected
 	if db.DB == nil {
 		db.InitDb() // เชื่อมต่อกับฐานข้อมูล
