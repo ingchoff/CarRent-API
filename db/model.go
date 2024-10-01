@@ -62,19 +62,29 @@ type Car struct {
 
 // Rental represents the rental of a Car by a User.
 type Rental struct {
-	ID         	uint     		`gorm:"primaryKey"`
-	StartDate 	time.Time
-	EndDate 	*time.Time
-	StartMile		int
-	EndMile			*int
-	Note				string
-	TotalCost  	*float64
-	UserID			uint
-	CarID  			uint
-	User   			User    		`gorm:"foreignKey:UserID"`
-	Car    			Car     		`gorm:"foreignKey:CarID"`
-	CreatedAt 	time.Time
-	UpdatedAt 	time.Time
+	ID         		uint     		`gorm:"primaryKey"`
+	Name					string
+	Nid						string
+	Phone					string
+	StartDate 		time.Time
+	EndDate 			time.Time
+	StartMile			int
+	EndMile				*int
+	CustomerNote	string
+	Detail				string
+	Expense				float64
+	TotalAmount		float64
+	TotalNet  		*float64
+	DailyRate			float64
+	CarDelivery1	float64
+	CarDelivery2	float64
+	Status				string
+	UserID				uint
+	CarID  				uint
+	User   				User    		`gorm:"foreignKey:UserID"`
+	Car    				Car     		`gorm:"foreignKey:CarID"`
+	CreatedAt 		time.Time
+	UpdatedAt 		time.Time
 }
 
 // Inspection represents an inspection of a rented Car.

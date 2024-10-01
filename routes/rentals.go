@@ -36,7 +36,12 @@ func createRental(context *gin.Context) {
 
 func getRentals(context *gin.Context) {
 	userId := context.GetUint("UserId")
-	rentals, err := models.FindAllRentals(userId)
+	cid, err := strconv.ParseInt(context.Param("cid"), 10, 64)
+	if err!= nil {
+		context.JSON(http.StatusBadRequest, gin.H{"msg": "Could not parse event id. Try again later."})
+		return
+	}
+	rentals, err := models.FindAllRentals(userId, uint(cid))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch request rentals data."})
 		return
@@ -90,12 +95,10 @@ func updateRental(context *gin.Context) {
 	err = updateRental.UpdateRental()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"msg": "Could not update the rental."})
+		return
 	}
 	context.JSON(http.StatusOK, gin.H{"msg": "Event updated successfully."})
 }
-
-// func updateRentalByCar(context *gin.Context) {
-// }
 
 func deleteRental(context *gin.Context) {
 	rentalId, err := strconv.ParseInt(context.Param("id"), 10, 64)
@@ -119,4 +122,20 @@ func deleteRental(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Deleted data."})
+}
+
+func searchRental(context *gin.Context) {
+	params := context.Request.URL.Query()
+	userId := context.GetUint("UserId")
+	if (params.Has("cid") && params.Has("name")) {
+		rentals, err := models.FindRentalByCondition(userId, params.Get("name"), params.Get("nid"), params.Get("start"), params.Get("end"), params.Get("cid"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not get rentals data."})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{"data": rentals})
+	} else {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Query Params Required!."})
+		return
+	}
 }
